@@ -19,3 +19,9 @@ $('#edit').addEventListener('click',()=>{$('#review').hidden=true;$('#delivery-f
 $('#clear-storage').addEventListener('click',()=>{items=[];try{localStorage.removeItem(key)}catch{}render();announce('Pedido guardado eliminado.')});
 all('.hero-photo img').forEach(img=>img.addEventListener('error',()=>{img.hidden=true;img.parentElement.style.minHeight='200px';img.parentElement.querySelector('figcaption').textContent='Tostadas estilo Siberia · La fotografía no está disponible.'}));
 render();
+
+// Mantener anclas y resumen visibles incluso al ampliar texto o cambiar de tamaño.
+const header = document.querySelector('.header');
+const syncHeaderHeight = () => document.documentElement.style.setProperty('--header-height', `${header.getBoundingClientRect().height}px`);
+syncHeaderHeight();
+if ('ResizeObserver' in window) new ResizeObserver(syncHeaderHeight).observe(header);
