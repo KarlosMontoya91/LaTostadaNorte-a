@@ -1,0 +1,8 @@
+node_modules/
+dist/
+*.log
+preview.png
+promociones-preview.png
+referencia-logo.png
+prompt-maestro.md
+revision-y-hallazgos.md

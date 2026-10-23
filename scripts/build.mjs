@@ -1,0 +1,10 @@
+import {mkdir,readFile,writeFile,cp} from 'node:fs/promises';
+import {products,categories,money} from '../src/catalog.mjs';
+await mkdir('dist',{recursive:true});
+const template=await readFile('src/index.html','utf8');
+const menu=categories.map(([id,title],i)=>`<section class="category" id="${id}" aria-labelledby="heading-${id}"><div class="category-title"><span>0${i+1}</span><h3 id="heading-${id}">${title}</h3>${i===0?'<span class="tag">El sabor de la casa</span>':''}</div>${products.filter(p=>p.category===id).map(p=>`<article class="product"><div><h4>${p.name}</h4><p>${p.description}</p></div><div class="product-action"><strong>${money(p.price)}</strong><button class="add" data-add="${p.id}" aria-label="Agregar ${p.name}">Agregar <span aria-hidden="true">+</span></button><span class="added" id="feedback-${p.id}"></span></div></article>`).join('')}${id==='combos'?'<p class="small">* Bebida y tamaños sujetos a confirmación del negocio.</p>':''}</section>`).join('');
+await writeFile('dist/index.html',template.replace('<!-- MENU -->',menu));
+for(const file of ['styles.css','app.mjs','catalog.mjs']) await cp('src/'+file,'dist/'+file);
+await cp('assets','dist/assets',{recursive:true});
+await writeFile('dist/robots.txt','User-agent: *\nDisallow: /\n');
+console.log('Build listo: dist/');

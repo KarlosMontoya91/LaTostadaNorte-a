@@ -1,0 +1,1 @@
+{"name":"la-tostada-nortena","private":true,"type":"module","scripts":{"build":"node scripts/build.mjs","build:pages":"node scripts/pages.mjs","dev":"node scripts/server.mjs","start":"node scripts/server.mjs","test":"node --test"}}

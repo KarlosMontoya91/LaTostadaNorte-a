@@ -1,0 +1,4 @@
+import {test} from 'node:test';import assert from 'node:assert/strict';import {products,reconcile,subtotal} from '../src/catalog.mjs';
+test('prices use integer cents and totals survive quantity changes',()=>{assert.equal(subtotal([{id:'tostada-grande',quantity:2},{id:'coca',quantity:1}]),20700);assert.ok(products.every(p=>Number.isInteger(p.price)))});
+test('reject invalid, missing and unavailable items; merge and cap quantities',()=>{assert.deepEqual(reconcile([{id:'bad',quantity:1},{id:'coca',quantity:-1},{id:'coca',quantity:1.2}]),[]);assert.deepEqual(reconcile([{id:'coca',quantity:98},{id:'coca',quantity:5}]),[{id:'coca',quantity:99}]);assert.deepEqual(reconcile([{id:'coca',quantity:1}],products.map(p=>({...p,available:false}))),[])});
+test('reconcile with updated authoritative fixture price',()=>{assert.equal(subtotal([{id:'coca',quantity:2}],products.map(p=>({...p,price:3000}))),6000)});
